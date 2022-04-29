@@ -4,8 +4,9 @@ function [best_p0, xf_err] = solve_2pbvp(P, t0, tf, rho, p0_guess)
 
 shot_wrapper = @(p0)(single_shot(P, t0, tf, p0(1:6), p0(7), rho));
 
-options = optimset('FinDiffRelStep', 1e-6, 'Display', 'iter-detailed', ...
-    'TolX', 1e-15, 'UseParallel', true);
+options = optimoptions('fsolve', 'Display', 'iter-detailed', ...
+    'MaxIterations', 50, 'UseParallel', true, ...
+    'FiniteDifferenceStepSize', 1e-6, 'StepTolerance', 1e-4);
 [best_p0, xf_err] = fsolve(shot_wrapper, p0_guess, options);
 
 end

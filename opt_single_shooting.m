@@ -12,6 +12,7 @@ P = problem_setup();
 t0 = 0;
 day = 86400;  % One day in seconds
 tf = 180*day/P.TU;
+tf = 1417.6;
 
 [best_p0, rho] = solve_fixed_time_transfer_indirect(P, t0, tf);
 
@@ -22,14 +23,14 @@ tf = 180*day/P.TU;
 
 
 % Generate Pareto front
-tf_min = 30*day/P.TU;
-tf_max = 240*day/P.TU;
-dtf = 15*day/P.TU;
-[tf_list, dv_list, p0_list] = build_pareto_front(P, t0, tf, rho, ...
-    best_p0, tf_min, tf_max, dtf);
-
-figure()
-scatter(tf_list, dv_list)
+% tf_min = 30*day/P.TU;
+% tf_max = 240*day/P.TU;
+% dtf = 15*day/P.TU;
+% [tf_list, dv_list, p0_list] = build_pareto_front(P, t0, tf, rho, ...
+%     best_p0, tf_min, tf_max, dtf);
+% 
+% figure()
+% scatter(tf_list, dv_list)
 
 
 % Plot out solution
