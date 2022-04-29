@@ -1,5 +1,6 @@
 function mee = COE2MEE(a, e, i, AOP, RAAN, true_anom)
-% Inputs are in km and degrees. Outputs are in km and radians.
+% Converts classical orbital elements to modified equinoctial elements. 
+% Input angles are in and degrees. Output angles are in km and radians.
 
 p = a*(1-e^2);
 f = e*cosd(AOP + RAAN);

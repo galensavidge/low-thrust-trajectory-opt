@@ -3,7 +3,7 @@ clc
 close all
 format short g
 
-addpath('..')
+addpath('../archive/')
 
 % Defined as [velocity; position]
 x0 = [1; 1];
@@ -14,7 +14,7 @@ u_max = 1;
 % Collocation time points
 t0 = 0;
 tf = 10;
-N = 20;
+N = 10;
 dt = (tf-t0)/(N-1);
 tk = t0:dt:tf;
 

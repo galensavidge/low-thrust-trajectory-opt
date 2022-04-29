@@ -1,9 +1,6 @@
 function plot_MEE_as_cartesian(t, x)
 
-r = zeros(3, length(x));
-for i = 1:length(x)
-    r(:,i) = position_from_MEE(x(:,i));
-end
+r =  position_from_MEE(x);
 
 hold on
 grid on

@@ -1,4 +1,7 @@
 function Xdot = dynamics_MEE_indirect(X, mu, g0, Isp, Tmax, rho)
+% Evaluates the resulting equations of motion of the modified equinoctial 
+% elements after the primer vector based optimal control law has been 
+% substituted into the Hamiltonian.
 
 % Orbit state
 x = X(1:6);
@@ -8,9 +11,6 @@ pm = X(14);
 
 % Thrust magnitude
 T = calc_thrust_MEE_indirect(x, m, px, pm, mu, g0, Isp, Tmax, rho);
-
-% uhat = -B'*px;
-% uhat = uhat/norm(uhat)
 
 % Split up state and adjoint vectors
 p = x(1);

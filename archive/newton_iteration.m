@@ -7,7 +7,7 @@ x = x0;
 while true
     G = finite_difference_jacobian(f, x, delta);
     step = scaling_factor*inv(G)*f(x);
-    x = x - step;
+    x = x - step
     
     if step.^2 < min_step_2
         break

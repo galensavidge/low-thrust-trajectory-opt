@@ -1,4 +1,6 @@
 function coe = MEE2COE(mee)
+% Transforms modified equinoctial elements into classical oribital
+% elements. Input angles are in radians. Output angles are in degrees.
 
 p = mee(1);
 f = mee(2);
