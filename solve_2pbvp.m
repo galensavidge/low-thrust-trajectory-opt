@@ -6,7 +6,8 @@ shot_wrapper = @(p0)(single_shot(P, t0, tf, p0(1:6), p0(7), rho));
 
 options = optimoptions('fsolve', 'Display', 'iter-detailed', ...
     'MaxIterations', 50, 'UseParallel', true, ...
-    'FiniteDifferenceStepSize', 1e-6, 'StepTolerance', 1e-4);
+    'FiniteDifferenceStepSize', 2e-5, 'FunctionTolerance', 1e-4, ...
+    'StepTolerance', 1e-5, 'FiniteDifferenceType', 'central');
 [best_p0, xf_err] = fsolve(shot_wrapper, p0_guess, options);
 
 end

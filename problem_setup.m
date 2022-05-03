@@ -48,3 +48,4 @@ P.Tmax = Tmax;
 P.LU = LU;
 P.TU = TU;
 P.MU = MU;
+P.rho_min = 1e-5;

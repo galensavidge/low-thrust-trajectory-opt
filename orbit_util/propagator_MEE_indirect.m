@@ -6,5 +6,5 @@ dynamics_func = @(t, X)(dynamics_MEE_indirect(X, P.mu, P.g0, P.Isp, P.Tmax, rho)
 
 % Propagate forward to tf
 propagator_options = odeset('RelTol', 1e-12, 'AbsTol', 1e-12);
-[t, X_hist] = ode45(dynamics_func, [t0 tf], X0, propagator_options);
+[t, X_hist] = ode89(dynamics_func, [t0 tf], X0, propagator_options);
 X_hist = X_hist';
