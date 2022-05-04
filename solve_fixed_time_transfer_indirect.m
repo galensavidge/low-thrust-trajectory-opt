@@ -16,6 +16,6 @@ disp('Found initial guess!')
 
 % Use homotopy technique to solve for solution with small rho
 rho = rho*0.1;
-p0_solution = solve_by_homotopy(P, t0, tf, rho, best_p0);
+[p0_solution, rho] = solve_by_homotopy(P, t0, tf, rho, best_p0);
 
 end

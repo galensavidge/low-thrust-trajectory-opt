@@ -1,23 +1,48 @@
-function [tf_list, dv_list, p0_list] = build_pareto_front(P, t0, init_tf, ...
-    rho, init_p0, tf_min, tf_max, dtf)
+clear
+clc
+close all
+format long g
+
+addpath('orbit_util')
+addpath('orbit_util\autogen\')
+
+% Set up the problem
+P = problem_setup();
+
+t0 = 0;
+day = 86400;  % One day in seconds
+init_tf = 180*day/P.TU;  % Start with a six month transfer
+
+% Solve one transfer fully to get an initial guess
+[init_p0, rho_init] = solve_fixed_time_transfer_indirect(P, t0, init_tf);
+
+% Pareto front time bounds
+tf_min = 160*day/P.TU;
+tf_max = 200*day/P.TU;
+dtf = 2.5*day/P.TU;
 
 tf = init_tf;
 p0 = init_p0;
-tf_list = [];
-dv_list = [];
+tf_list = tf;
+[~, X] = propagator_MEE_indirect(P, t0, tf, p0(1:6), p0(7), rho_init);
+dv_list = calc_delta_v(P, X);
 p0_list = [];
 
 % Loop, increasing tf and re-solving each time
 while tf <= tf_max
+    tf = tf + dtf
+
     % Solve the problem and propagate the solution
-    p0 = solve_by_homotopy(P, t0, tf, rho, p0);
+    [p0_solution, rho_solution] = solve_by_homotopy(P, t0, tf, rho_init*10, p0);
     
     % If no solution was found continue to the next iteration
-    if isnan(p0)
+    if isnan(p0_solution)
         continue
     end
 
-    [~, X] = propagator_MEE_indirect(P, t0, tf, p0(1:6), p0(7), rho);
+    p0 = p0_solution;
+
+    [~, X] = propagator_MEE_indirect(P, t0, tf, p0(1:6), p0(7), rho_solution);
 
     % Calculate delta-V
     dv = calc_delta_v(P, X);
@@ -26,7 +51,6 @@ while tf <= tf_max
     tf_list = [tf_list, tf];
     dv_list = [dv_list, dv];
     p0_list = [p0_list, p0];
-    tf = tf + dtf
 end
 
 % Reset transfer time and adjoints
@@ -35,15 +59,19 @@ p0 = init_p0;
 
 % Loop, decreasing tf and re-solving each time
 while tf >= tf_min
+    tf = tf - dtf
+
     % Solve the problem and propagate the solution
-    p0 = solve_by_homotopy(P, t0, tf, rho, p0);
+    [p0_solution, rho_solution] = solve_by_homotopy(P, t0, tf, rho_init*10, p0);
     
     % If no solution was found continue to the next iteration
-    if isnan(p0)
+    if isnan(p0_solution)
         continue
     end
 
-    [~, X] = propagator_MEE_indirect(P, t0, tf, p0(1:6), p0(7), rho);
+    p0 = p0_solution;
+
+    [~, X] = propagator_MEE_indirect(P, t0, tf, p0(1:6), p0(7), rho_solution);
 
     % Calculate delta-V
     dv = calc_delta_v(P, X);
@@ -52,5 +80,8 @@ while tf >= tf_min
     tf_list = [tf_list, tf];
     dv_list = [dv_list, dv];
     p0_list = [p0_list, p0];
-    tf = tf - dtf
 end
+
+% Save results to a file
+filename = sprintf('optimal_transfers_%s', datestr(now,'mm-dd-yyyy HH-MM'));
+save(filename, 'tf_list', 'dv_list', 'p0_list')

@@ -1,5 +1,5 @@
 function plot_position(t, r)
-% Plots keplerian position. Time history is of length N while r is 3xN.
+% Plots caresian position. Time history is of length N while r is 3xN.
 
 figure()
 hold on
