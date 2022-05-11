@@ -27,19 +27,20 @@ brown = [171 104 87]./255;
 purple = [144 103 167]./255;
 
 figure()
+% set(gcf,'units','inches','position',[0,0,7,7])
 hold on
 grid on
 axis equal
-plot3(r_coast(1,:), r_coast(2,:), r_coast(3,:), 'Color', black)
-plot3(r_thrust(1,:), r_thrust(2,:), r_thrust(3,:), 'Color', blue)
+plot3(r_coast(1,:), r_coast(2,:), r_coast(3,:), 'Color', '#0087db')
+plot3(r_thrust(1,:), r_thrust(2,:), r_thrust(3,:), 'Color', '#ffaf40')
 
 % Plot the initial and final orbits
 x0 = x(:,1);
 x0(1) = x0(1)*P.LU;
 xf = x(:,end);
 xf(1) = xf(1)*P.LU;
-plot_MEE_orbit(x0, purple)
-plot_MEE_orbit(xf, green)
+plot_MEE_orbit(x0, 'magenta')
+plot_MEE_orbit(xf, 'green')
 
 legend('Coast Arcs', 'Thrust Arcs', 'Initial Orbit', 'Final Orbit', Interpreter='latex')
 xlabel('$X$ [km]', 'Interpreter', 'latex')

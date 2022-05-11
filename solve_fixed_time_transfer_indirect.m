@@ -2,7 +2,7 @@ function [p0_solution, rho] = solve_fixed_time_transfer_indirect(P, t0, tf)
 rho = 1;  % Smoothing parameter
 
 % Randomly guess costates until one converges
-max_guesses = 10;
+max_guesses = 5;
 iter_tolerance = 5e-6;
 for i = 1:max_guesses
     p0_guess = 0.1*rand(7, 1);
@@ -10,6 +10,12 @@ for i = 1:max_guesses
     if norm(xf_err)^2 < iter_tolerance
         break
     end
+end
+
+if norm(xf_err)^2 >= iter_tolerance
+    p0_solution = NaN;
+    rho = NaN;
+    return
 end
 
 disp('Found initial guess!')

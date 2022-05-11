@@ -1,3 +1,6 @@
 *.asv
 *.mat
+*_fast*
+*.pdf
 References/
+figures/
